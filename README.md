@@ -24,7 +24,10 @@ Windows 悬浮记事本 —— 常驻屏幕右侧、滑入滑出，支持多记�
 
 ### 方式一：免安装版（推荐）
 
-到 [Releases](https://github.com/ananan07/ErNotepad/releases) 页面下载最新版的 `ErNotepad.exe`，下载后**双击即用**，无需安装 Python。
+- **国内用户推荐（蓝奏云）**：https://wwaxx.lanzout.com/i6yjX43whtgh （提取码 `9g7j`）
+- **GitHub Releases**：[最新版下载](https://github.com/ananan07/ErNotepad/releases)
+
+下载后**双击即用**，无需安装 Python。
 
 > 提示：exe 未做代码签名，首次运行时 Windows SmartScreen 可能拦截，点「更多信息 → 仍要运行」即可。笔记数据保存在 exe 所在目录的 `notes/` 文件夹中。
 

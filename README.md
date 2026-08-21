@@ -22,13 +22,17 @@ Windows 悬浮记事本 —— 常驻屏幕右侧、滑入滑出，支持多记�
 
 ## 安装与运行
 
+**第一次运行**：
+
+1. 安装 [Python 3.10+](https://www.python.org/downloads/)（安装时勾选 "Add python.exe to PATH"）
+2. 双击 `启动Er记事本.bat` —— 启动器会自动检测环境、自动安装依赖（PySide6，安装失败时自动改用清华镜像）
+
+之后每次使用直接双击 `启动Er记事本.bat` 即可。
+
+也可以手动安装依赖后运行：
+
 ```bash
 pip install -r requirements.txt
-```
-
-然后双击 `启动Er记事本.bat`，或运行：
-
-```bash
 python floating_notepad.py
 ```
 

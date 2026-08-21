@@ -2,6 +2,11 @@
 __pycache__/
 *.pyc
 
+# PyInstaller
+build/
+dist/
+*.spec
+
 # 用户数据（笔记内容、窗口位置等私人数据，不入库）
 notes/
 config.json

@@ -40,10 +40,15 @@ from PySide6.QtWidgets import (
     QStyle, QStyledItemDelegate, QVBoxLayout, QWidget,
 )
 
-APP_DIR = os.path.dirname(os.path.abspath(__file__))
+# 打包成 exe 时: 笔记/配置等数据存在 exe 旁边, 打包资源在临时解压目录
+if getattr(sys, "frozen", False):
+    APP_DIR = os.path.dirname(sys.executable)
+else:
+    APP_DIR = os.path.dirname(os.path.abspath(__file__))
 NOTES_DIR = os.path.join(APP_DIR, "notes")
 CONFIG_FILE = os.path.join(APP_DIR, "config.json")
-OCR_PS1 = os.path.join(APP_DIR, "ocr_scan.ps1")
+BUNDLE_DIR = getattr(sys, "_MEIPASS", APP_DIR)
+OCR_PS1 = os.path.join(BUNDLE_DIR, "ocr_scan.ps1")
 
 SLIDE_MS = 260        # 滑入/滑出动画时长(毫秒)
 SEMICIRCLE_R = 30     # 半圆呼出按钮半径(像素)

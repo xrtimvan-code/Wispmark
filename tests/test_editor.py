@@ -94,6 +94,7 @@ class EditorTests(unittest.TestCase):
             app.CONFIG_FILE = os.path.join(directory, 'config.json')
             window = app.NoteWindow(None)
             try:
+                self.assertEqual(window.windowTitle(), '悬笺 Markdown')
                 wait_for(lambda: window.editor.is_ready)
                 a, b = os.path.join(directory, 'a.json'), os.path.join(directory, 'b.json')
                 app.write_note_file(a, '# first')

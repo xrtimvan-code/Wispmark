@@ -1,4 +1,4 @@
-ErNotepad Markdown 悬浮记事本
+悬笺 Markdown
 
 点击某行编辑 Markdown 原文，其他行保持排版效果。
 表格、代码块整体编辑。Enter 换行，Ctrl+Z 撤销，Ctrl+Y 重做。

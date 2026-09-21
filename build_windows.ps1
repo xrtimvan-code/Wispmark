@@ -4,7 +4,7 @@ try {
     python -m pip install "pyinstaller>=6.0,<7"
     if ($LASTEXITCODE -ne 0) { throw 'PyInstaller install failed' }
     python -m PyInstaller --noconfirm --clean --onefile --windowed `
-        --name ErNotepad-Markdown `
+        --name XuanJian-Markdown `
         --add-data "editor/index.html;editor" `
         --add-data "editor/style.css;editor" `
         --add-data "editor/bundle.js;editor" `

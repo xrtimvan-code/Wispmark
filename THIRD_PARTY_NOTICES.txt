@@ -1,4 +1,4 @@
-ErNotepad Markdown - third-party software
+悬笺 Markdown - third-party software
 
 Original ErNotepad: ananan07, MIT (see LICENSE).
 CodeMirror 6 and Lezer parser dependencies: MIT.

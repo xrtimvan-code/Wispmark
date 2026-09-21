@@ -386,7 +386,7 @@ class ToolBar(QFrame):
         self.back_btn.hide()
         self.btn_undo.hide()
         self.btn_scan.hide()
-        self.title.setText("📚 Er记事本")
+        self.title.setText("📚 悬笺 Markdown")
 
     def set_editor_mode(self, note_title):
         t = note_title or "无标题"
@@ -578,7 +578,7 @@ class NoteWindow(QWidget):
     def __init__(self, semicircle):
         super().__init__()
         self.semicircle = semicircle
-        self.setWindowTitle("Er记事本")
+        self.setWindowTitle("悬笺 Markdown")
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setStyleSheet(STYLE)
@@ -1101,13 +1101,13 @@ class SemicircleButton(QWidget):
     def __init__(self, win):
         super().__init__()
         self.win = win
-        self.setWindowTitle("Er记事本呼出按钮")
+        self.setWindowTitle("悬笺 Markdown 呼出按钮")
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setFixedSize(SEMICIRCLE_R, SEMICIRCLE_R * 2)
         self.setMouseTracking(True)
         self.hovered = False
-        self.setToolTip("打开Er记事本")
+        self.setToolTip("打开悬笺 Markdown")
 
         # 半圆路径: 直边贴屏幕右缘, 圆弧向左凸出
         self._path = QPainterPath()
@@ -1177,7 +1177,7 @@ def make_app_icon():
 def main():
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)
-    app.setApplicationName("Er记事本")
+    app.setApplicationName("悬笺 Markdown")
     app.setWindowIcon(make_app_icon())
 
     migrate_legacy()

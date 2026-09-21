@@ -1,0 +1,17 @@
+{
+  "name": "ernotepad-markdown-editor",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "esbuild editor/main.js --bundle --minify --outfile=editor/bundle.js",
+    "test": "node --test tests/markdown.test.js"
+  },
+  "dependencies": {
+    "@codemirror/commands": "^6.10.0",
+    "@codemirror/lang-markdown": "^6.3.0",
+    "@codemirror/state": "^6.5.0",
+    "@codemirror/view": "^6.38.0",
+    "markdown-it": "^14.1.0"
+  },
+  "devDependencies": { "esbuild": "^0.25.0" }
+}

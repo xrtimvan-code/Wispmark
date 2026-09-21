@@ -1,0 +1,25 @@
+ErNotepad Markdown - third-party software
+
+Original ErNotepad: ananan07, MIT (see LICENSE).
+CodeMirror 6 and Lezer parser dependencies: MIT.
+markdown-it and dependencies: MIT; argparse: Python-2.0.
+Full editor dependency licenses are included in licenses/.
+
+PySide6, Shiboken6 and Qt 6.11.2: LGPL-3.0 (with GPL-3.0 terms
+referenced by LGPL). Copyright The Qt Company Ltd. and contributors.
+Qt WebEngine includes Chromium under its respective third-party licenses:
+https://doc.qt.io/qt-6/qtwebengine-licensing.html
+No modifications were made to Qt, PySide6, Shiboken6 or Chromium.
+
+Matching upstream source:
+https://download.qt.io/official_releases/QtForPython/pyside6/PySide6-6.11.2-src/
+https://download.qt.io/official_releases/qt/6.11/6.11.2/submodules/
+https://code.qt.io/cgit/qt/qtwebengine-chromium.git/
+
+Python 3.13: Python Software Foundation License (licenses/Python.txt).
+PyInstaller: GPL-2.0 with bootloader exception, permitting distribution
+of bundled applications under the application's own license.
+https://pyinstaller.org/en/stable/license.html
+
+This application is open source. You may modify it and rebuild against
+replacement Qt/PySide libraries using the included build instructions.

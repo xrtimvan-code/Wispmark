@@ -6,8 +6,13 @@ __pycache__/
 build/
 dist/
 *.spec
+deployment/
+*-crash-report.xml
 
 # 用户数据（笔记内容、窗口位置等私人数据，不入库）
 notes/
 config.json
 notes_data.json*
+
+# Editor build dependencies
+node_modules/

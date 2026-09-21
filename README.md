@@ -1,77 +1,71 @@
-# Er记事本
+# ErNotepad Markdown 悬浮记事本
 
-Windows 悬浮记事本 —— 常驻屏幕右侧、滑入滑出，支持多记事本和屏幕文字扫描（OCR）。
+基于 [ananan07/ErNotepad](https://github.com/ananan07/ErNotepad) 的 Markdown 修改版，保留原项目 MIT 许可证及作者署名。
 
-## 功能特性
+Windows 悬浮笔记本：**光标所在行显示 Markdown 原文，其他行显示排版效果**。点击另一行，上一行自动恢复阅读效果。表格和代码块作为一个整体进入编辑。
 
-- 🪟 **悬浮置顶窗口**：启动时从屏幕右侧滑入，永远置顶，无边框
-- 📚 **多记事本**：列表页与详情页在同一个窗口内切换，每本独立保存
-- 📝 **首行即标题**：第一行文字自动放大加粗作为标题（工具栏、列表卡片同步显示）
-- 🔍 **屏幕文字扫描**：点击「扫」→ 隐藏窗口 → 框选屏幕任意区域 → Windows 自带 OCR 识别并自动复制到剪贴板（支持中文）
-- ✏️ 双击空白处直接换行；「↶」按钮撤销（Ctrl+Z）
-- 📐 鼠标放到窗口左下角/右下角拖拽调整大小
-- ─ 最小化为屏幕右缘的**竖排小标签**，点击展开
-- □ 最大化铺满工作区（双击工具栏也可切换）
-- ✕ 向右滑出隐藏，屏幕右侧出现**半圆呼出按钮**随时唤回
-- 💾 内容实时自动保存，窗口位置和大小自动记忆
+## 下载和使用
 
-## 运行环境
+从本仓库 [Releases](https://github.com/xrtimvan-code/ErNotepad/releases) 下载 `ErNotepad-Markdown-Windows-x64.zip`，解压到可写文件夹后双击 `ErNotepad-Markdown.exe`，无需安装 Python 或 Node.js。所有编辑器资源已包含在程序中，日常编辑无需联网。
 
-- Windows 10 / 11（开发与测试于 Windows 11）
-- Python 3.10+（开发于 Python 3.14）
+程序包含 Qt WebEngine，体积较原版大，首次启动解压会稍慢。请保持压缩包内的许可证文件随程序一起分发。
 
-## 安装与运行
+exe 暂未做代码签名，Windows SmartScreen 首次运行时可能显示保护提示。请先核对 Release 页面公布的 SHA256；确认一致后，可选择“更多信息 → 仍要运行”。
 
-### 方式一：免安装版（推荐）
+## Markdown 编辑
 
-- **国内用户推荐（蓝奏云）**：https://wwaxx.lanzout.com/i6yjX43whtgh （提取码 `9g7j`）
-- **GitHub Releases**：[最新版下载](https://github.com/ananan07/ErNotepad/releases)
+- 点击需要修改的行，显示原文；鼠标仅经过不会切换。
+- 支持 `# 标题`、`**粗体**`、`*斜体*`、`~~删除线~~`、列表、引用、行内代码、围栏代码块、表格和链接。
+- 方向键可以移动光标；选中多行时，对应内容全部展开为原文。
+- Enter 换行；Ctrl+Z 或工具栏「↶」撤销，Ctrl+Y 重做，Ctrl+A 全选原文。
+- 按住 Ctrl 点击阅读状态下的链接，在系统默认浏览器打开。
+- 图片目前显示为图片说明文字，不自动加载本地或网络图片。原始 HTML 按文字显示。
+- 笔记始终保存 Markdown 原文，渲染和切换行不会改写源文本。
 
-下载后**双击即用**，无需安装 Python。
+保留原版的置顶悬浮、列表/笔记切换、拖动与缩放、最小化、屏幕边缘呼出、自动保存和 OCR。双击空白处换行改为标准 Enter 换行，以配合编辑器的选词与选择行为。
 
-> 提示：exe 未做代码签名，首次运行时 Windows SmartScreen 可能拦截，点「更多信息 → 仍要运行」即可。笔记数据保存在 exe 所在目录的 `notes/` 文件夹中。
+## 旧笔记和数据
 
-**文件校验**（下载后可核对完整性）：
+每本笔记仍保存在 exe 同目录 `notes/` 下的 JSON 文件，窗口设置仍在 `config.json`。普通文本笔记可直接继续使用；若原文包含 Markdown 符号，阅读状态会按 Markdown 排版，但保存的文字不变。
 
-```
-SHA256 (ErNotepad.exe) = 0191e10613c707f48f5b94f33d4fd86bb337d8f5bc45518b665e055186f533d2
-```
+迁移时，先退出原版程序，备份后把原版 `notes/` 文件夹复制到新版 exe 旁边。不要让两个版本同时编辑同一份笔记目录。
 
-核对命令：`certutil -hashfile ErNotepad.exe SHA256`
+## 从源码运行
 
-### 方式二：源码运行
+Windows 10/11 x64，Python 3.10+。
 
-**第一次运行**：
-
-1. 安装 [Python 3.10+](https://www.python.org/downloads/)（安装时勾选 "Add python.exe to PATH"）
-2. 双击 `启动Er记事本.bat` —— 启动器会自动检测环境、自动安装依赖（PySide6，安装失败时自动改用清华镜像）
-
-之后每次使用直接双击 `启动Er记事本.bat` 即可。
-
-也可以手动安装依赖后运行：
-
-```bash
-pip install -r requirements.txt
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
 python floating_notepad.py
 ```
 
-## 屏幕文字扫描（OCR）说明
+也可使用 `启动Er记事本.bat`。仓库包含已构建的 `editor/bundle.js`，运行源码无需 Node.js。
 
-- 使用 Windows 自带的 OCR 引擎（`Windows.Media.Ocr`），**无需安装任何 OCR 模型或第三方库**
-- 中文识别要求系统已安装中文 OCR 语言包（中文版 Windows 默认自带）
-- 通过 PowerShell 子进程调用 `ocr_scan.ps1`，每次调用附带 `-ExecutionPolicy Bypass` 参数（只对单次调用生效，不修改系统设置）
-- 识别结果会自动去掉 Windows OCR 在中文字符间插入的多余空格
+## 开发、测试与打包
 
-## 数据存储
+修改 `editor/` 中的 JavaScript 后，使用 Node.js 20+ 重建资源：
 
-- 每本记事本独立保存为 `notes/` 文件夹下的 JSON 文件
-- 窗口位置与大小保存在 `config.json`
-- 以上数据均只在本地生成，删除 `notes/` 文件夹即可清除全部笔记
+```powershell
+npm ci
+npm test
+npm run build
+python -m unittest discover -s tests -v
+```
 
-## 使用说明
+请在 Visual Studio 的“x64 Native Tools Command Prompt”中运行：
 
-详见 [使用说明.txt](使用说明.txt)
+```powershell
+.\build_windows.ps1
+```
+
+打包脚本使用 PyInstaller。Qt 集成测试会短暂创建测试窗口，使用临时笔记目录。构建结果为 `dist/ErNotepad-Markdown.exe`。分发压缩包同时附上 `LICENSE`、`THIRD_PARTY_NOTICES.txt` 和 `licenses/`。
+
+## OCR
+
+沿用 Windows 自带 OCR 引擎。点击「扫」框选区域后，识别文字复制到剪贴板。中文识别需要系统中文 OCR 语言包。调用随附 `ocr_scan.ps1`，无需下载识别模型。
 
 ## 许可证
 
-[MIT](LICENSE)
+本项目采用 MIT 许可证，见 [LICENSE](LICENSE)。第三方编辑器和 Qt 组件的许可见 `THIRD_PARTY_NOTICES.txt` 及 `licenses/`。

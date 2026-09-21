@@ -1,0 +1,26 @@
+html, body { height: 100%; margin: 0; background: #fdfcf7; color: #3a3a3a; }
+#editor { height: 100%; }
+#editor .cm-editor { height: 100%; font: 17px/1.7 "Microsoft YaHei UI", "Microsoft YaHei", sans-serif; }
+#editor .cm-editor.cm-focused { outline: none; }
+#editor .cm-scroller { overflow: auto; font-family: inherit; }
+#editor .cm-content { padding: 12px 14px 80px; caret-color: #3a3a3a; }
+#editor .cm-line { padding: 0 2px; }
+#editor .cm-activeLine { background: #f2eee3; border-radius: 4px; }
+#editor .cm-selectionBackground, #editor .cm-editor.cm-focused .cm-selectionBackground { background: #ffe9a8 !important; }
+.cm-preview { padding: 0 2px; white-space: normal; overflow-wrap: anywhere; cursor: text; }
+.cm-preview p, .cm-preview ul, .cm-preview ol, .cm-preview blockquote { margin: 0; }
+.cm-preview ul, .cm-preview ol { padding-left: 1.6em; }
+.cm-preview h1, .cm-preview h2, .cm-preview h3, .cm-preview h4, .cm-preview h5, .cm-preview h6 { margin: 4px 0; line-height: 1.5; color: #242424; }
+.cm-preview h1 { font-size: 1.65em; }
+.cm-preview h2 { font-size: 1.4em; }
+.cm-preview h3 { font-size: 1.2em; }
+.cm-preview blockquote { border-left: 3px solid #bfb8a7; padding-left: 12px; color: #777064; }
+.cm-preview code { font: .9em/1.6 Consolas, monospace; background: #eeeade; border-radius: 3px; padding: 2px 4px; }
+.cm-preview pre { margin: 5px 0; padding: 10px; background: #eeeade; border-radius: 6px; white-space: pre-wrap; }
+.cm-preview pre code { padding: 0; }
+.cm-preview table { border-collapse: collapse; margin: 6px 0; max-width: 100%; }
+.cm-preview th, .cm-preview td { border: 1px solid #d9d2c2; padding: 4px 8px; }
+.cm-preview th { background: #f0ebdf; }
+.cm-preview a { color: #3673c8; text-decoration: underline; }
+.cm-preview hr { border: 0; border-top: 1px solid #d9d2c2; }
+.image-label { color: #777064; }

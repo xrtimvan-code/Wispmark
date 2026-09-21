@@ -31,14 +31,15 @@ from PySide6.QtCore import (
 )
 from PySide6.QtGui import (
     QColor, QCursor, QFont, QFontMetrics, QGuiApplication, QIcon, QPainter,
-    QPainterPath, QPen, QPixmap, QRegion, QSyntaxHighlighter, QTextCharFormat,
-    QTextCursor,
+    QPainterPath, QPen, QPixmap, QRegion,
 )
 from PySide6.QtWidgets import (
     QApplication, QFrame, QHBoxLayout, QLabel, QListWidget,
-    QListWidgetItem, QMenu, QMessageBox, QPlainTextEdit, QPushButton,
+    QListWidgetItem, QMenu, QMessageBox, QPushButton,
     QStyle, QStyledItemDelegate, QVBoxLayout, QWidget,
 )
+
+from markdown_editor import MarkdownEditor
 
 # 打包成 exe 时: 笔记/配置等数据存在 exe 旁边, 打包资源在临时解压目录
 if getattr(sys, "frozen", False):
@@ -78,15 +79,6 @@ QLabel#vtitle {
     font-family: "Microsoft YaHei UI", "Microsoft YaHei";
     font-size: 10pt;
     padding: 10px 2px;
-}
-QPlainTextEdit {
-    background: transparent;
-    border: none;
-    color: #3A3A3A;
-    font-family: "Microsoft YaHei UI", "Microsoft YaHei";
-    font-size: 13pt;
-    padding: 10px;
-    selection-background-color: #FFE9A8;
 }
 QPushButton#tb_btn {
     border: none;
@@ -144,81 +136,6 @@ def first_line(text):
         if line:
             return line
     return ""
-
-
-class NoteEditor(QPlainTextEdit):
-    """编辑区: 拼音输入未上屏(组合中)时也立即隐藏占位提示;
-    双击空白处直接插入换行"""
-
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self._ph_restore = None
-
-    def inputMethodEvent(self, e):
-        if e.preeditString():
-            # 正在用输入法组合拼音: 先藏起占位提示
-            if self.placeholderText() and self._ph_restore is None:
-                self._ph_restore = self.placeholderText()
-                self.setPlaceholderText("")
-        elif self._ph_restore is not None:
-            self.setPlaceholderText(self._ph_restore)
-            self._ph_restore = None
-        super().inputMethodEvent(e)
-
-    def mouseDoubleClickEvent(self, e):
-        if e.button() == Qt.LeftButton:
-            cursor = self.cursorForPosition(e.position().toPoint())
-            pos = cursor.position()
-            pos_in_block = cursor.positionInBlock()
-            line_text = cursor.block().text()
-            # 空白处 = 行尾文字之外, 或该位置字符本身是空白
-            is_blank = (pos_in_block >= len(line_text)
-                        or line_text[pos_in_block].isspace())
-            if is_blank:
-                # 双击空白处: 在此处插入换行, 取代默认的选词行为
-                cursor = self.textCursor()
-                cursor.setPosition(pos)
-                cursor.insertText("\n")
-                self.setTextCursor(cursor)
-                self.ensureCursorVisible()
-                return
-        # 双击在文字上: 保持默认行为(选中该词)
-        super().mouseDoubleClickEvent(e)
-
-
-class TitleHighlighter(QSyntaxHighlighter):
-    """第一行非空文字作为标题, 字体比正文稍大且加粗"""
-
-    def __init__(self, doc):
-        super().__init__(doc)
-        fmt = QTextCharFormat()
-        f = QFont("Microsoft YaHei UI", 16)
-        f.setBold(True)
-        fmt.setFont(f)
-        fmt.setForeground(QColor("#1F1F1F"))
-        self._fmt = fmt
-        self._pending = False
-        # 文档变化后延迟到事件循环空闲时全量重刷,
-        # 避免在编辑过程中同步重入 QTextDocument 导致崩溃
-        doc.contentsChanged.connect(self._schedule)
-
-    def _schedule(self):
-        if not self._pending:
-            self._pending = True
-            QTimer.singleShot(0, self._do_rehighlight)
-
-    def _do_rehighlight(self):
-        self._pending = False
-        self.rehighlight()
-
-    def highlightBlock(self, text):
-        if not text.strip():
-            return
-        prev = self.currentBlock().previous()
-        while prev.isValid() and not prev.text().strip():
-            prev = prev.previous()
-        if not prev.isValid():
-            self.setFormat(0, len(text), self._fmt)
 
 
 def load_note_file(path):
@@ -700,11 +617,8 @@ class NoteWindow(QWidget):
         self.editor_page = QWidget()
         ev = QVBoxLayout(self.editor_page)
         ev.setContentsMargins(0, 0, 0, 0)
-        self.editor = NoteEditor()
-        self.editor.setPlaceholderText("在这里输入内容…")
-        self.editor.setLineWrapMode(QPlainTextEdit.WidgetWidth)
-        self._highlighter = TitleHighlighter(self.editor.document())
-        self.editor.document().undoAvailable.connect(self.toolbar.btn_undo.setEnabled)
+        self.editor = MarkdownEditor()
+        self.editor.undoAvailable.connect(self.toolbar.btn_undo.setEnabled)
         ev.addWidget(self.editor)
         self.switcher.add_page(self.editor_page)
 
@@ -903,15 +817,15 @@ class NoteWindow(QWidget):
         self._update_tab_text()
 
     def show_list(self):
-        if self.current_note:
-            self._flush_save()
+        if self.current_note and not self._flush_save():
+            return
         self.list_page.refresh()
         self.toolbar.set_list_mode()
         self._set_page(0)
 
     def open_note(self, path):
-        if self.current_note and self.current_note != path:
-            self._flush_save()
+        if self.current_note and not self._flush_save():
+            return
         self.current_note = path
         data = load_note_file(path)
         self.editor.setPlainText(data.get("text", ""))
@@ -996,8 +910,8 @@ class NoteWindow(QWidget):
             self.toolbar.set_list_mode()
 
     def create_note(self):
-        if self.current_note:
-            self._flush_save()
+        if self.current_note and not self._flush_save():
+            return
         path = os.path.join(NOTES_DIR, uuid.uuid4().hex[:12] + ".json")
         write_note_file(path, "")
         self.current_note = path
@@ -1114,8 +1028,12 @@ class NoteWindow(QWidget):
             m.addSeparator()
             m.addAction("删除当前记事本", lambda: self.ask_delete_note(self.current_note))
         m.addSeparator()
-        m.addAction("退出程序", QApplication.instance().quit)
+        m.addAction("退出程序", self.quit_app)
         m.exec(pos)
+
+    def quit_app(self):
+        if self._flush_save():
+            QApplication.instance().quit()
 
     # ---------- 数据持久化 ----------
     def _load_config(self):
@@ -1142,11 +1060,15 @@ class NoteWindow(QWidget):
         self._normal_geo = rect or self.default_rect()
 
     def _flush_save(self):
+        self._save_timer.stop()
         if self.current_note:
             try:
+                self.editor.flush()
                 write_note_file(self.current_note, self.editor.toPlainText())
-            except Exception:
-                pass
+            except Exception as error:
+                QMessageBox.warning(self, "保存失败", str(error))
+                return False
+        return True
 
     def save_data(self):
         try:
@@ -1236,7 +1158,7 @@ class SemicircleButton(QWidget):
             m.addAction("打开记事本", self.win.semi_open)
             m.addAction("新建记事本", self.win.create_note)
             m.addSeparator()
-            m.addAction("退出程序", QApplication.instance().quit)
+            m.addAction("退出程序", self.win.quit_app)
             m.exec(e.globalPosition().toPoint())
 
 

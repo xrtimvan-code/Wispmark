@@ -1,4 +1,4 @@
-# 悬笺 Markdown
+# Wispmark
 
 基于 [ananan07/ErNotepad](https://github.com/ananan07/ErNotepad) 的 Markdown 修改版，由 [xrtimvan-code](https://github.com/xrtimvan-code) 维护，保留原项目 MIT 许可证及作者署名。
 
@@ -6,7 +6,7 @@ Windows 悬浮笔记本：**光标所在行显示 Markdown 原文，其他行显
 
 ## 下载和使用
 
-从本仓库 [Releases](https://github.com/xrtimvan-code/XuanJian-Markdown/releases) 下载 `XuanJian-Markdown-Windows-x64.zip`，解压到可写文件夹后双击 `XuanJian-Markdown.exe`，无需安装 Python 或 Node.js。所有编辑器资源已包含在程序中，日常编辑无需联网。
+从本仓库 [Releases](https://github.com/xrtimvan-code/Wispmark/releases) 下载 `Wispmark-Windows-x64.zip`，解压到可写文件夹后双击 `Wispmark.exe`，无需安装 Python 或 Node.js。所有编辑器资源已包含在程序中，日常编辑无需联网。
 
 程序包含 Qt WebEngine，体积较原版大，首次启动解压会稍慢。请保持压缩包内的许可证文件随程序一起分发。
 
@@ -41,7 +41,7 @@ python -m pip install -r requirements.txt
 python floating_notepad.py
 ```
 
-也可使用 `启动悬笺Markdown.bat`。仓库包含已构建的 `editor/bundle.js`，运行源码无需 Node.js。
+也可使用 `启动Wispmark.bat`。仓库包含已构建的 `editor/bundle.js`，运行源码无需 Node.js。
 
 ## 开发、测试与打包
 
@@ -60,7 +60,7 @@ python -m unittest discover -s tests -v
 .\build_windows.ps1
 ```
 
-打包脚本使用 PyInstaller。Qt 集成测试会短暂创建测试窗口，使用临时笔记目录。构建结果为 `dist/XuanJian-Markdown.exe`。分发压缩包同时附上 `LICENSE`、`THIRD_PARTY_NOTICES.txt` 和 `licenses/`。
+打包脚本使用 PyInstaller。Qt 集成测试会短暂创建测试窗口，使用临时笔记目录。构建结果为 `dist/Wispmark.exe`。分发压缩包同时附上 `LICENSE`、`THIRD_PARTY_NOTICES.txt` 和 `licenses/`。
 
 ## OCR
 

@@ -1,7 +1,7 @@
 @echo off
 chcp 65001 >nul
 cd /d "%~dp0"
-title 悬笺 Markdown
+title Wispmark
 
 rem 检查 Python
 set "PY="
@@ -11,7 +11,7 @@ if not defined PY (
 )
 if not defined PY (
     echo.
-    echo  [悬笺 Markdown] 未检测到 Python，第一次使用需要先安装：
+    echo  [Wispmark] 未检测到 Python，第一次使用需要先安装：
     echo.
     echo    1. 打开 https://www.python.org/downloads/
     echo    2. 下载并安装 Python 3.10 或更高版本
@@ -26,7 +26,7 @@ if not defined PY (
 rem 检查并自动安装依赖
 python -c "import PySide6" >nul 2>nul
 if errorlevel 1 (
-    echo  [悬笺 Markdown] 正在安装依赖 PySide6，首次安装约 1 分钟，请稍候...
+    echo  [Wispmark] 正在安装依赖 PySide6，首次安装约 1 分钟，请稍候...
     python -m pip install -r requirements.txt
     if errorlevel 1 (
         echo  默认源安装失败，尝试清华镜像...
@@ -34,7 +34,7 @@ if errorlevel 1 (
     )
     if errorlevel 1 (
         echo.
-        echo  [悬笺 Markdown] 依赖安装失败，请检查网络后重试。
+        echo  [Wispmark] 依赖安装失败，请检查网络后重试。
         pause
         exit /b 1
     )

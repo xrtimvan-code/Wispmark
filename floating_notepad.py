@@ -50,6 +50,7 @@ NOTES_DIR = os.path.join(APP_DIR, "notes")
 CONFIG_FILE = os.path.join(APP_DIR, "config.json")
 BUNDLE_DIR = getattr(sys, "_MEIPASS", APP_DIR)
 OCR_PS1 = os.path.join(BUNDLE_DIR, "ocr_scan.ps1")
+ICON_FILE = os.path.join(BUNDLE_DIR, "assets", "Wispmark-icon.png")
 
 SLIDE_MS = 260        # 滑入/滑出动画时长(毫秒)
 SEMICIRCLE_R = 30     # 半圆呼出按钮半径(像素)
@@ -386,7 +387,7 @@ class ToolBar(QFrame):
         self.back_btn.hide()
         self.btn_undo.hide()
         self.btn_scan.hide()
-        self.title.setText("📚 悬笺 Markdown")
+        self.title.setText("📚 Wispmark")
 
     def set_editor_mode(self, note_title):
         t = note_title or "无标题"
@@ -578,7 +579,7 @@ class NoteWindow(QWidget):
     def __init__(self, semicircle):
         super().__init__()
         self.semicircle = semicircle
-        self.setWindowTitle("悬笺 Markdown")
+        self.setWindowTitle("Wispmark")
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setStyleSheet(STYLE)
@@ -1101,13 +1102,13 @@ class SemicircleButton(QWidget):
     def __init__(self, win):
         super().__init__()
         self.win = win
-        self.setWindowTitle("悬笺 Markdown 呼出按钮")
+        self.setWindowTitle("Wispmark 呼出按钮")
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setFixedSize(SEMICIRCLE_R, SEMICIRCLE_R * 2)
         self.setMouseTracking(True)
         self.hovered = False
-        self.setToolTip("打开悬笺 Markdown")
+        self.setToolTip("打开 Wispmark")
 
         # 半圆路径: 直边贴屏幕右缘, 圆弧向左凸出
         self._path = QPainterPath()
@@ -1163,21 +1164,13 @@ class SemicircleButton(QWidget):
 
 
 def make_app_icon():
-    pix = QPixmap(64, 64)
-    pix.fill(Qt.transparent)
-    p = QPainter(pix)
-    f = QFont("Segoe UI Emoji")
-    f.setPixelSize(44)
-    p.setFont(f)
-    p.drawText(pix.rect(), Qt.AlignCenter, "📝")
-    p.end()
-    return QIcon(pix)
+    return QIcon(ICON_FILE)
 
 
 def main():
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)
-    app.setApplicationName("悬笺 Markdown")
+    app.setApplicationName("Wispmark")
     app.setWindowIcon(make_app_icon())
 
     migrate_legacy()
